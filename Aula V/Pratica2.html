@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas dos Alunos</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #d3d3d3;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Notas dos Alunos</h2>
+
+<table id="notasTable">
+    <tr>
+        <th rowspan="2">Aluno</th>
+        <th colspan="3">Semestre 1</th>
+        <th colspan="3">Semestre 2</th>
+        <th colspan="3">Semestre 3</th>
+    </tr>
+    <tr>
+        <th>Nota 1</th>
+        <th>Nota 2</th>
+        <th>Nota 3</th>
+        <th>Nota 1</th>
+        <th>Nota 2</th>
+        <th>Nota 3</th>
+        <th>Nota 1</th>
+        <th>Nota 2</th>
+        <th>Nota 3</th>
+    </tr>
+    <tr>
+        <td>João</td>
+        <td>10</td>
+        <td>8</td>
+        <td>9</td>
+        <td>6</td>
+        <td>8.7</td>
+        <td>10</td>
+        <td>6</td>
+        <td>7</td>
+        <td>9</td>
+    </tr>
+    <tr>
+        <td>Maria</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>José</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Paulo</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Miguel</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Julia</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+<br>
+<button onclick="addRowTotal()">Adicionar Linha Totalizadora</button>
+<button onclick="addColumnTotal()">Adicionar Coluna Totalizadora</button>
+
+<script>
+    function addRowTotal() {
+        const table = document.getElementById("notasTable");
+        const rows = table.rows;
+        const rowCount = rows.length;
+        const colCount = rows[0].cells.length;
+
+        let newRow = table.insertRow(rowCount);
+        let newCell = newRow.insertCell(0);
+        newCell.innerHTML = "Média por Semestre";
+
+        for (let i = 1; i < colCount; i++) {
+            let sum = 0;
+            let count = 0;
+
+            for (let j = 2; j < rowCount; j++) { // Ignora o cabeçalho
+                let cellValue = parseFloat(rows[j].cells[i].innerHTML);
+                if (!isNaN(cellValue)) {
+                    sum += cellValue;
+                    count++;
+                }
+            }
+
+            let average = sum / count;
+            let averageCell = newRow.insertCell(i);
+            averageCell.innerHTML = isNaN(average) ? '' : average.toFixed(2);
+        }
+    }
+
+    function addColumnTotal() {
+        const table = document.getElementById("notasTable");
+        const rows = table.rows;
+        const rowCount = rows.length;
+        const colCount = rows[0].cells.length;
+
+        // Adiciona cabeçalho da nova coluna
+        let headerRow = rows[0];
+        let headerCell = headerRow.insertCell(colCount);
+        headerCell.rowSpan = 2;
+        headerCell.innerHTML = "Média do Aluno";
+
+        for (let i = 2; i < rowCount; i++) { // Ignora o cabeçalho
+            let sum = 0;
+            let count = 0;
+
+            for (let j = 1; j < colCount; j++) {
+                let cellValue = parseFloat(rows[i].cells[j].innerHTML);
+                if (!isNaN(cellValue)) {
+                    sum += cellValue;
+                    count++;
+                }
+            }
+
+            let average = sum / count;
+            let averageCell = rows[i].insertCell(colCount);
+            averageCell.innerHTML = isNaN(average) ? '' : average.toFixed(2);
+        }
+    }
+</script>
+
+</body>
+</html>
